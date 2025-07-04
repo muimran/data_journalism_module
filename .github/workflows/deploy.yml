@@ -17,6 +17,6 @@ jobs:
         username: ${{ secrets.SFTP_USERNAME }}
         password: ${{ secrets.SFTP_PASSWORD }}
         protocol: sftp
-        port: 22
+        port: 21
         local-dir: ./
         server-dir: /public_html/
