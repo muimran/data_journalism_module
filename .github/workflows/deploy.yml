@@ -11,12 +11,12 @@ jobs:
     - uses: actions/checkout@v4
     
     - name: Upload files via SFTP
-      uses: SamKirkland/FTP-Deploy-Action@4.3.0
+      uses: wlixcc/SFTP-Deploy-Action@v1.0
       with:
         server: ${{ secrets.SFTP_SERVER }}
         username: ${{ secrets.SFTP_USERNAME }}
         password: ${{ secrets.SFTP_PASSWORD }}
-        protocol: sftp
-        port: 21
-        local-dir: ./
-        server-dir: /public_html/
+        port: 22
+        local_path: './*'
+        remote_path: '/public_html/'
+        args: '-o ConnectTimeout=5'
