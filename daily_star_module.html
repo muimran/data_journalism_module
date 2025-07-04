@@ -1,0 +1,996 @@
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      
+      <title>Daily Star Data Journalism Training Module</title>
+      <meta name="description" content="Detailed module description for the Daily Star Workshop series." />
+      <meta name="keywords" content="data journalism, workshop, calendar, sessions" />
+      <meta name="author" content="" />
+      
+      <!-- Open Graph for social sharing -->
+      <meta property="og:title" content="Daily Star Data Journalism Training Module" />
+      <meta property="og:description" content="Detailed module description for the Daily Star Workshop series" />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content="https://muhammadimran.com/ds_module.html" />
+      <meta property="og:image" content="https://tds-images.thedailystar.net/sites/all/themes/sloth/logo.svg" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
+    
+    <style>
+  /* Reset */
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  body, html {
+    height: 100%;
+    font-family: 'Roboto', sans-serif;
+    background: #F0E8D3;
+    color: #222;
+  }
+
+  /* Mobile top bar - hidden by default */
+  .mobile-top-bar {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    z-index: 1200;
+    align-items: center;
+    padding: 0 15px;
+  }
+
+  .mobile-title {
+    font-weight: 500;
+    margin-left: 15px;
+    font-size: 1.1rem;
+    color: #333;
+  }
+
+  .container {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 16px;
+    padding: 54px;
+    height: 100vh;
+  }
+
+  .menu {
+    grid-column: 2 / 3;
+    overflow-y: auto;
+    position: sticky;
+    top: 48px;
+  }
+
+  .menu div {
+    position: relative;
+    margin-bottom: 14px;
+    cursor: pointer;
+    color: #0e0202;
+    transition: color 0.3s ease;
+    user-select: none;
+    text-align: right;
+    padding-right: 70px;
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
+  .menu div::after {
+    content: "";
+    display: block;
+    width: 0;
+    height: 2px;
+    background: #9900ff;
+    transition: width 0.5s ease;
+    margin-top: 4px;
+    margin-left: auto;
+  }
+
+  .menu div:hover::after,
+  .menu div.active::after {
+    width: 40px;
+  }
+
+  .content {
+    grid-column: 3 / 6;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    line-height: 1.2;
+    padding-right: 16px;
+  }
+
+  .content section {
+    margin-bottom: 48px;
+  }
+
+  .content h2 {
+    font-weight: 550;
+    font-size: 1.20rem;
+    margin-bottom: 12px;
+    color: #111;
+  }
+
+  .content ul {
+    list-style: none;
+    padding-left: 0;
+    color: #444;
+  }
+
+  .content ul li {
+    margin-bottom: 10px;
+    font-size: 1rem;
+    position: relative;
+    padding-left: 14px;
+  }
+
+  /* Calendar styles */
+  .calendar {
+    grid-column: 6 / 7;
+    max-width: 280px;
+    width: 100%;
+    background: none;
+    border:none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    margin: 0 auto;
+    position: sticky;
+    top: 24px;
+  }
+
+  #calendar-months {
+    margin-top: 110px;
+  }
+
+  .calendar h3 {
+    margin-bottom: 12px;
+    font-weight: 600;
+    text-align: center;
+    color: #0057b8;
+  }
+
+  .month {
+    margin-bottom: 24px;
+  }
+
+  .month-name {
+    font-weight: 600;
+    margin-bottom: 6px;
+    text-align: center;
+    color: #222;
+  }
+
+  .weekdays, .days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+  }
+
+  .weekdays div {
+    font-weight: 500;
+    color: #686868;
+    padding: 6px 0;
+    text-transform: uppercase;
+    font-size: 0.60rem;
+  }
+
+  .days div {
+    width: 19px;
+    height: 19px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin: 5px;
+    cursor: default;
+    user-select: none;
+    font-size: 0.80rem;
+    color: #686868;
+  }
+
+  .days div.session-date.selected {
+    background-color: #9900ff;
+  }
+
+  .days div:hover {
+    background-color: #e0e7ff;
+  }
+
+  .days div.empty {
+    cursor: default;
+    background: transparent;
+    pointer-events: none;
+  }
+
+  .days div.session-date {
+    background-color: #D4D42A;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .days div.session-date:hover {
+    background-color: #9900ff;
+  }
+
+  .content section h2.active-session-heading {
+    color: #9900ff;
+    transition: color 0.3s ease;
+  }
+
+  .content section h2.hovered-session-heading {
+    color: #9900ff;
+    transition: color 0.3s ease;
+  }
+
+  .menu div.hovered::after {
+    width: 40px;
+    background: #9900ff;
+  }
+
+/* today's date styling */
+  .days div.today {
+  background-color: #FE4D00 !important;
+  color: white !important;
+  font-weight: bold;
+}
+
+
+/* Tooltip styling */
+.days div.today::after {
+  content: "Today";
+  position: absolute;
+  background: #333;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  white-space: nowrap;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+  z-index: 100;
+}
+
+.days div.today:hover::after {
+  opacity: 1;
+}
+
+.days div {
+  position: relative; /* Needed for tooltip positioning */
+}
+
+
+
+  .subtitle {
+    display: none;
+    font-style: italic;
+    font-size: 0.7rem;
+    color: #D4D42A;
+  }
+
+  .content h2:hover .subtitle {
+    display: inline;
+  }
+
+  /* Hide burger by default (desktop) */
+  #burger {
+    display: none;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1100;
+    cursor: pointer;
+    font-size: 1.8rem;
+    user-select: none;
+    color: #9900ff;
+  }
+
+
+  .related-reading a,
+  .related-resources a,
+  li a {
+    color: inherit; /* Makes the link the same color as the surrounding text */
+    text-decoration: underline; /* Keeps the underline */
+  }
+
+
+
+  /* Responsive styling for mobile */
+  @media (max-width: 768px) {
+    /* Show mobile top bar and burger */
+    .mobile-top-bar {
+      display: flex;
+    }
+    
+    #burger {
+      display: block;
+      position: static;
+      font-size: 1.5rem;
+      color: #555;
+    }
+
+    /* Adjust container padding */
+    .container {
+      padding: 20px 15px;
+      padding-top: 70px !important;
+    }
+
+    /* Menu styles */
+    .menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 250px;
+      height: 100vh;
+      background: #fff;
+      padding: 20px;
+      box-shadow: 2px 0 8px rgba(0,0,0,0.2);
+      overflow-y: auto;
+      z-index: 1000;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      grid-column: auto !important;
+    }
+
+    .menu div {
+      padding-right: 20px;
+      text-align: left;
+    }
+
+    .menu.open {
+      transform: translateX(0);
+    }
+
+    /* Content styles */
+    .content {
+      grid-column: 1 / -1 !important;
+      padding: 0 15px !important;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    /* Hide calendar on mobile */
+    .calendar {
+      display: none;
+    }
+  }
+
+  /* Add to your existing styles */
+  .menu div.hovered {
+    color: #9900ff;
+  }
+
+  .menu div.hovered::after {
+    width: 40px;
+    background: #9900ff;
+  }
+
+  .days div.session-date.hovered {
+    background-color: #9900ff !important;
+    transform: scale(1.1);
+    transition: transform 0.2s ease;
+  }
+
+  .mobile-date {
+        display: none;
+        font-size: 0.7rem;
+        color: #686868;
+        margin-left: 8px;
+      }
+
+      @media (max-width: 768px) {
+        .content h2:hover .mobile-date {
+          display: inline;
+        }
+
+
+        
+
+    </style>
+  </head>
+  <body>
+    <div class="mobile-top-bar">
+      <div id="burger">&#9776;</div>
+      <div class="mobile-title">Workshop Sessions</div>
+    </div>
+
+  <div class="container">
+    <div class="menu" id="menu"></div>
+    <div class="content" id="content-area"></div>
+
+    <!-- Calendar panel -->
+    <div class="calendar" id="calendar">
+      <div id="calendar-months"></div>
+    </div>
+  </div>
+
+  <script>
+    // Session data for menu and content
+    const sessions = [
+      {
+        menuLabel: "session 1",
+        title: "Introduction and housekeeping",
+        content: [
+          "Setting goals and expectations",
+          "Defining the scope and structure of the series",
+          "Contextualizing the role of data journalism in today's newsroom"
+        ],
+        dates: ["2025-06-21"]
+      },
+      {
+        menuLabel: "session 2",
+        title: "Data Types Basics and OpenRefine for Cleaning- 1",
+        subtitle: "data processing",
+        content: [
+          "Why data types matter in data analysis and cleaning",
+          "Installing and launching OpenRefine",
+          "Cleaning messy CSV/Excel files",
+          "Clustering and reconciling data",
+          "Splitting/joining columns, removing duplicates",
+          "Exporting clean data for analysis"
+        ],
+        dates: ["2025-06-23"]
+      },
+
+      {
+        menuLabel: "session 3",
+        title: "Data Types Basics and OpenRefine for Cleaning-  2",
+        subtitle: "data processing",
+        content: [
+          "Why data types matter in data analysis and cleaning",
+          "Installing and launching OpenRefine",
+          "Cleaning messy CSV/Excel files",
+          "Clustering and reconciling data",
+          "Splitting/joining columns, removing duplicates",
+          "Exporting clean data for analysis"
+        ],
+        dates: ["2025-06-25"]
+      },  
+      
+      {
+        menuLabel: "session 4",
+        title: "Spreadsheet Basics (Excel/Google Sheets)",
+        subtitle: "data processing", 
+        content: [
+          "Data entry best practices",
+          "Sorting, filtering, conditional formatting",
+          "Basic formulas: SUM, AVERAGE, COUNTIF, CONCAT",
+          "Simple pivot tables"
+        ],
+        dates: ["2025-06-26"]
+      },
+      {
+        menuLabel: "session 5",
+        title: "Newsroom Math",
+        subtitle: "data processing", 
+        content: [
+          "Mean, median, mode, range, standard deviation",
+          "Making sense of distributions",
+          "Detecting errors and unusual values",
+          "Interpreting summary statistics",
+          '<a href="http://www.tylervigen.com/spurious-correlations" target="_blank" rel="noopener">Spurious Correlations</a>',
+          '<a href="https://journalistsresource.org/home/percent-change-math-for-journalists/"  target="_blank"  style="color: inherit; text-decoration: underline;">Percentage and percentage point</a>',
+          '<a href="https://coffeebreakdata.com/average-of-an-average-is-wrong/" target="_blank" style="color: inherit; text-decoration: underline;">Average of the averages</a>',
+
+        ],
+        dates: ["2025-06-28"]
+      },
+      {
+        menuLabel: "session 6",
+        title: 'Web Scraping with <a href="https://www.octoparse.com" style="color: inherit; text-decoration: underline;">Octoparse</a> (No-Code Scraping)',
+        subtitle: "data collection", 
+        content: [
+          '<a href="https://www.octoparse.com/download" style="color: inherit; text-decoration: underline;">Installing Octoparse</a>',
+          "Creating a simple scraping workflow",
+          "Scraping paginated websites",
+          "Exporting data to Excel/CSV"
+        ],
+        dates: ["2025-06-30"]
+      },
+      {
+        menuLabel: "session 7",
+        title: "Data Lab 1: Investigating the Human Cost of Migration",
+        subtitle: "data processing", 
+        content: [
+          "Exploring the IOM Missing Migrants dataset for Bangladeshi and South Asian cases",
+          "Analysing patterns by route, destination, and cause of death",
+          "Visualising risks and trends affecting regional migrants"
+        ],
+        dates: ["2025-07-02"]
+      },
+      {
+        menuLabel: "session 8",
+        title: "Where to Find Open Data on Bangladesh",
+        subtitle: "data collection", 
+        content: [
+          "Bangladesh government open data portals",
+          "UN, World Bank, IMF, UNESCO, WHO",
+          "Data journalism repositories (Data is Plural, Kaggle)",
+          "FOI (Freedom of Information) basics"
+        ],
+        dates: ["2025-07-03"]
+      },
+
+      {
+        menuLabel: "session 9",
+        title: "Working with PDFs (Beginner-friendly, No-code/Low-code)",
+        subtitle: "data collection", 
+        content: [
+          "Extracting tables and text using Tabula",
+          "Online tools for PDF to Excel conversion"
+        ],
+        dates: ["2025-07-05"]
+      },
+
+      {
+    menuLabel: "session 10",
+    title: "Data Viz Theory: How to Think Visually",
+    subtitle: "data visualisation", 
+    content: [
+      "When to use which chart",
+      "Data types (categorical, ordinal, continuous)",
+      "Visual perception: chartjunk, color theory",
+      "Story structure in data visuals"
+    ],
+    dates: ["2025-07-07"]
+  },
+  {
+    menuLabel: "session 11",
+    title: "Datawrapper Basics: Quick Charts",
+    subtitle: "data visualisation", 
+    content: [
+      "Creating bar, line, pie, and dot plots",
+      "Customizing colors, fonts, labels",
+      "Embedding charts in web stories",
+      "Exporting images and interactives"
+    ],
+    dates: ["2025-07-09"]
+  },
+  {
+    menuLabel: "session 12",
+    title: "Datawrapper Advanced: Customizing & Storytelling",
+    subtitle: "data visualisation", 
+    content: [
+      "Multiple axes charts",
+      "Interactive tooltips and annotations",
+      "Embedding data sources and notes",
+      "Live-updating charts via Google Sheets"
+    ],
+    dates: ["2025-07-10"]
+  },
+  {
+    menuLabel: "session 13",
+    title: "Maps with Datawrapper: Choropleths and Symbol Maps",
+    subtitle: "data visualisation", 
+    content: [
+      "How are maps used in data journalism",
+      "Uploading geo datasets (shapefiles/GeoJSON)",
+      "Creating region-based color maps",
+      "Symbol maps for point-based data",
+      "Map annotations, tooltips, and legends"
+    ],
+    dates: ["2025-07-12"]
+  },
+
+
+  {
+    menuLabel: "session 14",
+    title: "Custom GeoJSON and Map Creation",
+    subtitle: "data visualisation", 
+    content: [
+      "Finding and editing GeoJSON",
+      "Drawing custom boundaries",
+      "Combining multiple data layers",
+      "Embedding interactive maps"
+    ],
+    dates: ["2025-07-14"]
+  },
+  {
+    menuLabel: "session 15",
+    title: "Spreadsheet Analysis Techniques",
+    subtitle: "data processing", 
+    content: [
+      "Nested formulas: IF, VLOOKUP/XLOOKUP, INDEX-MATCH",
+      "Pivot charts",
+      "Date/time functions",
+      "Basic statistical summaries (mean, median, mode, standard deviation)"
+    ],
+    dates: ["2025-07-16"]
+  },
+  {
+    menuLabel: "session 16",
+    title: "How to Run Surveys for Data Collection",
+    subtitle: "data collection", 
+    content: [
+      "Designing effective, unbiased survey questions",
+      "Sample size and sampling bias",
+      "Tools for online surveys",
+      "Exporting and preparing survey data for analysis"
+    ],
+    dates: ["2025-07-17"]
+  },
+
+      {
+        menuLabel: "session 17",
+        title: "Satellite Data for Investigations",
+        subtitle: "osint", 
+        content: [
+          "Tools: Google Earth Pro, Sentinel Hub Playground, Planet Labs (public data), Sentinel Downloader",
+          "Types of satellite imagery and their uses",
+          "Tracking deforestation, floods, urban expansion, fires",
+          "Accessing free satellite data (Sentinel, NASA FIRMS, Google Earth historical imagery)",
+          "Measuring distances, areas, and changes over time",
+          "Exporting imagery for reporting"
+        ],
+        dates: ["2025-07-19"]
+      },
+      {
+        menuLabel: "session 18",
+        title: "Data Lab 2: Investigating Inequality Using Poverty and Health Data",
+        content: [
+          "Finding datasets on income, health, education gaps",
+          "Visualizing disparities with charts and maps",
+          "Case study: inequality reporting examples"
+        ],
+        dates: ["2025-07-21"]
+      },
+
+      {
+        menuLabel: "session 19",
+        title: "Introduction to Coding for Data Journalists",
+        content: [
+          "Details will be provided soon."
+        ],
+        dates: ["2025-07-23"]
+      },
+      {
+        menuLabel: "session 20",
+        title: "Criticism, Bias and Pitfalls of Data Journalism",
+        content: [
+          "Details will be provided soon."
+        ],
+        dates: ["2025-07-24"]
+      },
+      {
+        menuLabel: "sessions 21–23",
+        title: "SESSION 21–23: Reserved for overflow / catch-up if needed",
+        content: [
+          "These sessions are intentionally left unscheduled in case earlier topics require extra time or to accommodate additional sessions based on participant needs."
+        ],
+        dates: ["2025-07-26", "2025-07-28", "2025-07-30"]
+      },
+      {
+        menuLabel: "sessions 24–30",
+        title: "SESSION 24–30: Story Development and Publication",
+        content: [
+          "Details will be provided soon."
+        ],
+        dates: ["2025-07-31", "2025-08-02", "2025-08-04", "2025-08-06", "2025-08-07", "2025-08-09"]
+      }
+    ];
+
+    // Fill menu and content
+    const menuDiv = document.getElementById('menu');
+    const contentArea = document.getElementById('content-area');
+
+    sessions.forEach((session, index) => {
+      const sessionNumber = index + 1;
+
+      // Create menu button (unchanged)
+      const menuItem = document.createElement('div');
+      menuItem.id = 'session' + sessionNumber;
+      menuItem.textContent = session.menuLabel;
+      menuItem.onclick = () => scrollToSession(sessionNumber);
+      menuDiv.appendChild(menuItem);
+
+      // Create content section
+      const section = document.createElement('section');
+      section.id = 'content-session' + sessionNumber;
+
+      const title = document.createElement('h2');
+      title.innerHTML = session.title;
+
+      // Add subtitle if exists
+      if (session.subtitle) {
+        const subtitle = document.createElement('span');
+        subtitle.textContent = "  " + session.subtitle;
+        subtitle.className = 'subtitle';
+        subtitle.style.fontStyle = 'italic';
+        subtitle.style.fontSize = '0.7rem';
+        subtitle.style.marginLeft = '6px';
+        title.appendChild(subtitle);
+      }
+
+      // Add mobile date display
+      if (session.dates && session.dates.length > 0) {
+        const mobileDate = document.createElement('span');
+        mobileDate.className = 'mobile-date';
+        // Format dates nicely for display
+        const formattedDates = session.dates.map(date => {
+          const d = new Date(date);
+          return `${d.getDate()} ${d.toLocaleString('default', { month: 'short' })}`;
+        }).join(', ');
+        mobileDate.textContent = `(${formattedDates})`;
+        title.appendChild(mobileDate);
+      }
+
+      section.appendChild(title);
+
+      const ul = document.createElement('ul');
+      session.content.forEach(line => {
+        const li = document.createElement('li');
+        li.innerHTML = line;
+        ul.appendChild(li);
+      });
+      section.appendChild(ul);
+
+      contentArea.appendChild(section);
+    });
+
+    // Set the first menu item active by default
+    menuDiv.children[0].classList.add('active');
+
+    function scrollToSession(sessionNumber) {
+      const session = sessions[sessionNumber - 1];
+      
+      // Scroll content area to the session heading
+      const section = document.getElementById('content-session' + sessionNumber);
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      // Highlight active menu item
+      for (let item of menuDiv.children) {
+        item.classList.remove('active');
+      }
+      const activeItem = document.getElementById('session' + sessionNumber);
+      activeItem.classList.add('active');
+
+      // Highlight active session heading
+      document.querySelectorAll('.content section h2').forEach(h2 => {
+        h2.classList.remove('active-session-heading');
+      });
+      const activeHeading = section.querySelector('h2');
+      if (activeHeading) {
+        activeHeading.classList.add('active-session-heading');
+      }
+
+      // Remove 'selected' class from all session-date circles
+      document.querySelectorAll('.days div.session-date.selected').forEach(el => el.classList.remove('selected'));
+
+      // Highlight all calendar dates for this session
+      if (session.dates) {
+        const calendarDays = document.querySelectorAll('.days div.session-date');
+        calendarDays.forEach(dayDiv => {
+          session.dates.forEach(dateStr => {
+            if(dayDiv.title.includes(dateStr)) {
+              dayDiv.classList.add('selected');
+            }
+          });
+        });
+      }
+    }
+
+    // Calendar generation code
+
+    // Helper to get weekday names
+    const weekdayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+    // Months to show
+    const calendarMonths = [
+      { name: "June 2025", year: 2025, month: 5 },
+      { name: "July 2025", year: 2025, month: 6 },
+      { name: "August 2025", year: 2025, month: 7 }
+    ];
+
+    // Create a Set of all session dates strings "YYYY-MM-DD" for quick lookup
+    const sessionDatesSet = new Set();
+    sessions.forEach(session => {
+      if (session.dates) {
+        session.dates.forEach(date => sessionDatesSet.add(date));
+      }
+    });
+
+    // Create a map of dates to sessions for quick lookup
+    const dateToSessionsMap = new Map();
+    sessions.forEach(session => {
+      if (session.dates) {
+        session.dates.forEach(date => {
+          if (!dateToSessionsMap.has(date)) {
+            dateToSessionsMap.set(date, []);
+          }
+          dateToSessionsMap.get(date).push(session);
+        });
+      }
+    });
+
+    const calendarContainer = document.getElementById('calendar-months');
+
+    // Function to format date as YYYY-MM-DD
+function formatDate(date) {
+  const d = new Date(date);
+  let month = '' + (d.getMonth() + 1);
+  let day = '' + d.getDate();
+  const year = d.getFullYear();
+
+  if (month.length < 2) month = '0' + month;
+  if (day.length < 2) day = '0' + day;
+
+  return [year, month, day].join('-');
+}
+
+// Get today's date in YYYY-MM-DD format
+const todayStr = formatDate(new Date());
+
+    function createMonthCalendar(year, month, monthName) {
+      const monthDiv = document.createElement('div');
+      monthDiv.className = 'month';
+
+      const monthTitle = document.createElement('div');
+      monthTitle.className = 'month-name';
+      monthTitle.textContent = monthName;
+      monthDiv.appendChild(monthTitle);
+
+      // Weekdays header
+      const weekdaysDiv = document.createElement('div');
+      weekdaysDiv.className = 'weekdays';
+      weekdayNames.forEach(day => {
+        const dayDiv = document.createElement('div');
+        dayDiv.textContent = day;
+        weekdaysDiv.appendChild(dayDiv);
+      });
+      monthDiv.appendChild(weekdaysDiv);
+
+      // Days grid
+      const daysDiv = document.createElement('div');
+      daysDiv.className = 'days';
+
+      const firstDay = new Date(year, month, 1);
+      const lastDay = new Date(year, month + 1, 0);
+      const daysInMonth = lastDay.getDate();
+      const startWeekday = firstDay.getDay();
+
+      // Fill empty slots before first day
+      for(let i = 0; i < startWeekday; i++) {
+        const emptyDiv = document.createElement('div');
+        emptyDiv.className = 'empty';
+        daysDiv.appendChild(emptyDiv);
+      }
+
+      // Fill days
+      for(let day=1; day<=daysInMonth; day++) {
+  const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+  const dayDiv = document.createElement('div');
+  dayDiv.textContent = day;
+
+  // Highlight today's date
+  if (dateStr === todayStr) {
+    dayDiv.classList.add('today');
+  }
+
+  if(sessionDatesSet.has(dateStr)) {
+    dayDiv.classList.add('session-date');
+          
+          // Get all sessions for this date
+          const sessionsForDate = dateToSessionsMap.get(dateStr);
+          const sessionTitles = sessionsForDate.map(s => s.menuLabel).join(', ');
+          dayDiv.title = `${dateStr}: ${sessionTitles}`;
+          
+          dayDiv.onclick = () => {
+            // Remove 'selected' class from all session-date divs
+            document.querySelectorAll('.days div.session-date.selected').forEach(el => el.classList.remove('selected'));
+            
+            // Add 'selected' class to the clicked day
+            dayDiv.classList.add('selected');
+            
+            // Scroll to the first session linked to this date
+            if(sessionsForDate.length > 0) {
+              const sessionIndex = sessions.findIndex(s => s === sessionsForDate[0]);
+              scrollToSession(sessionIndex + 1);
+            }
+          };
+        }
+
+        daysDiv.appendChild(dayDiv);
+      }
+
+      monthDiv.appendChild(daysDiv);
+      return monthDiv;
+    }
+
+    // Render calendars
+    calendarMonths.forEach(({name, year, month}) => {
+      const monthCalendar = createMonthCalendar(year, month, name);
+      calendarContainer.appendChild(monthCalendar);
+    });
+
+    const contentHeadings = document.querySelectorAll('.content section h2');
+
+  contentHeadings.forEach((heading, index) => {
+    const session = sessions[index];
+    
+    heading.addEventListener('mouseenter', () => {
+    // First remove ALL selection and hover classes
+    document.querySelectorAll('.menu div.active, .menu div.hovered').forEach(el => {
+      el.classList.remove('active', 'hovered');
+    });
+    document.querySelectorAll('.days div.session-date.selected, .days div.session-date.hovered').forEach(el => {
+      el.classList.remove('selected', 'hovered');
+    });
+    document.querySelectorAll('.content section h2.active-session-heading, .content section h2.hovered-session-heading').forEach(el => {
+      el.classList.remove('active-session-heading', 'hovered-session-heading');
+    });
+
+    // Now apply hover highlights
+    heading.classList.add('hovered-session-heading');
+    const menuItem = document.getElementById('session' + (index + 1));
+    if (menuItem) menuItem.classList.add('hovered');
+    
+    if (session.dates) {
+      session.dates.forEach(dateStr => {
+        document.querySelectorAll('.days div.session-date').forEach(dayDiv => {
+          if(dayDiv.title.includes(dateStr)) {
+            dayDiv.classList.add('hovered');
+          }
+        });
+      });
+    }
+  });
+
+    heading.addEventListener('mouseleave', () => {
+      // Remove all hover highlights
+      heading.classList.remove('hovered-session-heading');
+      
+      const menuItem = document.getElementById('session' + (index + 1));
+      if (menuItem) menuItem.classList.remove('hovered');
+      
+      if (session.dates) {
+        session.dates.forEach(dateStr => {
+          document.querySelectorAll('.days div.session-date').forEach(dayDiv => {
+            if(dayDiv.title.includes(dateStr)) {
+              dayDiv.classList.remove('hovered');
+            }
+          });
+        });
+      }
+      
+      // Restore any active selections
+      const activeSessionNumber = [...menuDiv.children].findIndex(el => el.classList.contains('active')) + 1;
+      if (activeSessionNumber > 0) {
+        scrollToSession(activeSessionNumber);
+      }
+    });
+  });
+
+    const burger = document.getElementById('burger');
+  const menu = document.querySelector('.menu');
+
+  burger.addEventListener('click', (e) => {
+    e.stopPropagation(); // Prevent this click from bubbling up to document
+    menu.classList.toggle('open');
+  });
+
+  // Close menu when clicking anywhere outside
+  document.addEventListener('click', (e) => {
+    // Check if click is outside the menu and burger icon
+    if (!menu.contains(e.target) && e.target !== burger) {
+      menu.classList.remove('open');
+    }
+  });
+
+  // Prevent clicks inside menu from closing it
+  menu.addEventListener('click', (e) => {
+    e.stopPropagation();
+  });
+  </script>
+
+  </body>
+  </html>
