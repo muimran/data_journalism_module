@@ -1,0 +1,22 @@
+name: Deploy to Hostinger via SFTP
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Upload files via SFTP
+      uses: wlixcc/SFTP-Deploy-Action@v1.0
+      with:
+        server: ${{ secrets.SFTP_SERVER }}
+        username: ${{ secrets.SFTP_USERNAME }}
+        password: ${{ secrets.SFTP_PASSWORD }}
+        port: 22
+        local_path: './*'
+        remote_path: '/public_html/'
+        args: '-o ConnectTimeout=5'
