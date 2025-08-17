@@ -21,7 +21,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Lora:wght@700&family=Roboto:wght@400;600&display=swap" rel="stylesheet">
   
   <style>
-    /* --- NEW: CSS Variables for easy theming --- */
     :root {
       --bg-color: #F0E8D3;
       --text-primary: #222;
@@ -58,7 +57,6 @@
       height: 100vh;
     }
     
-    /* --- NEW: Header Styling --- */
     .header {
       grid-column: 3 / 6;
       padding-bottom: 30px;
@@ -113,6 +111,9 @@
     .menu div.active::after {
       width: 40px;
     }
+    .menu div.active {
+      color: var(--accent-color);
+    }
 
     /* Content */
     .content {
@@ -123,7 +124,6 @@
       padding-right: 16px;
     }
 
-    /* --- UPDATED: Added styles for fade-in animation --- */
     .content section {
       margin-bottom: 48px;
       opacity: 0;
@@ -142,6 +142,7 @@
       margin-bottom: 16px; 
       color: #111;
       letter-spacing: -0.5px; 
+      transition: color 0.3s ease;
     }
 
     .content ul {
@@ -222,7 +223,6 @@
       pointer-events: none;
     }
 
-    /* Session dates */
     .days div.session-date {
       color: white !important;
       font-weight: 500;
@@ -245,9 +245,9 @@
 
     .days div.session-date.selected {
       background-color: var(--accent-color);
+      transform: scale(1.22);
     }
 
-    /* Today's date */
     .days div.today {
       background-color: var(--today-color) !important;
       color: white !important;
@@ -278,73 +278,18 @@
     }
 
     /* Mobile styles */
-    .mobile-top-bar {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 50px;
-      background: white;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      z-index: 1200;
-      align-items: center;
-      padding: 0 15px;
-    }
-
-    .mobile-title {
-      font-weight: 500;
-      margin-left: 15px;
-      font-size: 1.1rem;
-      color: #333;
-    }
-
-    #burger {
-      display: none;
-      cursor: pointer;
-      font-size: 1.8rem;
-      user-select: none;
-      color: var(--accent-color);
-    }
-
-    .mobile-date {
-      display: none;
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      margin-left: 8px;
-    }
-
+    .mobile-top-bar { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 50px; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); z-index: 1200; align-items: center; padding: 0 15px; }
+    .mobile-title { font-weight: 500; margin-left: 15px; font-size: 1.1rem; color: #333; }
+    #burger { display: none; cursor: pointer; font-size: 1.8rem; user-select: none; color: var(--accent-color); }
+    .mobile-date { display: none; font-size: 0.7rem; color: var(--text-muted); margin-left: 8px; }
     @media (max-width: 768px) {
       .mobile-top-bar { display: flex; }
       #burger { display: block; font-size: 1.5rem; color: #555; }
       .container { padding: 20px 15px !important; padding-top: 70px !important; }
-
-      /* --- NEW: Header Mobile Styles --- */
-      .header {
-        grid-column: 1 / -1;
-        padding: 0 15px 20px 15px;
-        margin-bottom: 20px;
-        text-align: center;
-      }
+      .header { grid-column: 1 / -1; padding: 0 15px 20px 15px; margin-bottom: 20px; text-align: center; }
       .header h1 { font-size: 1.8rem; }
       .header p { font-size: 1rem; max-width: 100%; }
-
-      .menu {
-        position: fixed;
-        top: 50px; 
-        bottom: 0; 
-        left: 0;
-        width: 220px; 
-        background-color: rgba(255, 255, 255, 0.85); 
-        -webkit-backdrop-filter: blur(10px);
-        backdrop-filter: blur(10px);
-        padding: 20px;
-        box-shadow: 2px 0 8px rgba(0,0,0,0.2);
-        overflow-y: auto;
-        z-index: 1000;
-        transform: translateX(-100%);
-        transition: transform 0.3s ease;
-      }
+      .menu { position: fixed; top: 50px; bottom: 0; left: 0; width: 220px; background-color: rgba(255, 255, 255, 0.85); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); padding: 20px; box-shadow: 2px 0 8px rgba(0,0,0,0.2); overflow-y: auto; z-index: 1000; transform: translateX(-100%); transition: transform 0.3s ease; }
       .menu div { padding-right: 20px; text-align: left; }
       .menu div::after { margin-left: 0; }
       .menu.open { transform: translateX(0); }
@@ -353,16 +298,12 @@
       .content h2:hover .mobile-date { display: inline; }
     }
 
-    /* Additional styles */
     .content section h2.active-session-heading {
       color: var(--accent-color);
-      transition: color 0.3s ease;
     }
-    .content section h2.hovered-session-heading {
+    .menu div.hovered, .content section h2.hovered-session-heading {
       color: var(--accent-color);
-      transition: color 0.3s ease;
     }
-    .menu div.hovered { color: var(--accent-color); }
     .menu div.hovered::after {
       width: 40px;
       background: var(--accent-color);
@@ -372,20 +313,9 @@
       transform: scale(1.1);
       transition: transform 0.2s ease;
     }
-    .subtitle {
-      display: none; 
-      font-family: var(--font-primary);
-      font-style: italic;
-      font-size: 0.9rem;
-      color: var(--upcoming-date-bg); 
-      font-weight: 400;
-      margin-left: 8px;
-    }
+    .subtitle { display: none; font-family: var(--font-primary); font-style: italic; font-size: 0.9rem; color: var(--upcoming-date-bg); font-weight: 400; margin-left: 8px; }
     .content h2:hover .subtitle { display: inline; }
-    .related-reading a, .related-resources a, li a {
-      color: inherit;
-      text-decoration: underline;
-    }
+    .related-reading a, .related-resources a, li a { color: inherit; text-decoration: underline; }
   </style>
 </head>
 <body>
@@ -395,15 +325,12 @@
   </div>
 
   <div class="container">
-    <!-- --- NEW: Header Section --- -->
     <div class="header">
       <h1>Daily Star Data Journalism Workshop</h1>
       <p>An overview of the training modules, topics, and schedule for 2025.</p>
     </div>
-
     <div class="menu" id="menu"></div>
     <div class="content" id="content-area"></div>
-
     <div class="calendar" id="calendar">
       <div id="calendar-months"></div>
     </div>
@@ -435,7 +362,6 @@
         ],
         dates: ["2025-06-23"]
       },
-
       {
         menuLabel: "session 3",
         title: "Hands-On Data Cleaning with OpenRefine",
@@ -450,7 +376,6 @@
         ],
         dates: ["2025-06-25"]
       },  
-      
       {
         menuLabel: "session 4",
         title: "Spreadsheet Basics (Excel/Google Sheets)",
@@ -514,7 +439,6 @@
         ],
         dates: ["2025-07-03"]
       },
-
       {
         menuLabel: "session 9",
         title: "Working with PDFs (Beginner-friendly, No-code/Low-code)",
@@ -525,73 +449,72 @@
         ],
         dates: ["2025-07-05"]
       },
-
       {
-    menuLabel: "session 10",
-    title: "Data Viz Theory: How to Think Visually",
-    subtitle: "data visualisation", 
-    content: [
-      "When to use which chart",
-      "Data types (categorical, ordinal, continuous)",
-      "Visual perception: chartjunk, color theory",
-      "Story structure in data visuals"
-    ],
-    dates: ["2025-07-07"]
-  },
-  {
-    menuLabel: "session 11",
-    title: "Datawrapper Basics: Quick Charts",
-    subtitle: "data visualisation", 
-    content: [
-      "Creating bar, line, pie, and dot plots",
-      "Customizing colors, fonts, labels",
-      "Embedding charts in web stories",
-      "Exporting images and interactives"
-    ],
-    dates: ["2025-07-09"]
-  },
-  {
-    menuLabel: "session 12",
-    title: "Datawrapper Advanced: Customizing & Storytelling",
-    subtitle: "data visualisation", 
-    content: [
-      "Multiple axes charts",
-      "Interactive tooltips and annotations",
-      "Embedding data sources and notes",
-      "Live-updating charts via Google Sheets"
-    ],
-    dates: ["2025-07-10"]
-  },
-  {
-    menuLabel: "session 13",
-    title: "Maps with Datawrapper: Choropleths and Symbol Maps",
-    subtitle: "data visualisation", 
-    content: [
-      "How are maps used in data journalism",
-      "Uploading geo datasets (shapefiles/GeoJSON)",
-      "Creating region-based color maps",
-      "Symbol maps for point-based data",
-      "Map annotations, tooltips, and legends"
-    ],
-    dates: ["2025-07-12"]
-  },
-  {
-    menuLabel: "session 14",
-    title: "Custom GeoJSON and Map Creation",
-    subtitle: "data visualisation", 
-    content: [
-      "Finding and editing GeoJSON",
-      "Drawing custom boundaries",
-      "Combining multiple data layers",
-      "Embedding interactive maps"
-    ],
-    dates: ["2025-07-14"]
-  },
-    {
-    menuLabel: "session 15",
-    title: "Satellite Data for Investigations",
-    subtitle: "data processing", 
-    content: [
+        menuLabel: "session 10",
+        title: "Data Viz Theory: How to Think Visually",
+        subtitle: "data visualisation", 
+        content: [
+          "When to use which chart",
+          "Data types (categorical, ordinal, continuous)",
+          "Visual perception: chartjunk, color theory",
+          "Story structure in data visuals"
+        ],
+        dates: ["2025-07-07"]
+      },
+      {
+        menuLabel: "session 11",
+        title: "Datawrapper Basics: Quick Charts",
+        subtitle: "data visualisation", 
+        content: [
+          "Creating bar, line, pie, and dot plots",
+          "Customizing colors, fonts, labels",
+          "Embedding charts in web stories",
+          "Exporting images and interactives"
+        ],
+        dates: ["2025-07-09"]
+      },
+      {
+        menuLabel: "session 12",
+        title: "Datawrapper Advanced: Customizing & Storytelling",
+        subtitle: "data visualisation", 
+        content: [
+          "Multiple axes charts",
+          "Interactive tooltips and annotations",
+          "Embedding data sources and notes",
+          "Live-updating charts via Google Sheets"
+        ],
+        dates: ["2025-07-10"]
+      },
+      {
+        menuLabel: "session 13",
+        title: "Maps with Datawrapper: Choropleths and Symbol Maps",
+        subtitle: "data visualisation", 
+        content: [
+          "How are maps used in data journalism",
+          "Uploading geo datasets (shapefiles/GeoJSON)",
+          "Creating region-based color maps",
+          "Symbol maps for point-based data",
+          "Map annotations, tooltips, and legends"
+        ],
+        dates: ["2025-07-12"]
+      },
+      {
+        menuLabel: "session 14",
+        title: "Custom GeoJSON and Map Creation",
+        subtitle: "data visualisation", 
+        content: [
+          "Finding and editing GeoJSON",
+          "Drawing custom boundaries",
+          "Combining multiple data layers",
+          "Embedding interactive maps"
+        ],
+        dates: ["2025-07-14"]
+      },
+      {
+        menuLabel: "session 15",
+        title: "Satellite Data for Investigations",
+        subtitle: "data processing", 
+        content: [
           "Tools: Google Earth Pro, Sentinel Hub Playground, Planet Labs (public data), Sentinel Downloader",
           "Types of satellite imagery and their uses",
           "Tracking deforestation, floods, urban expansion, fires",
@@ -599,8 +522,8 @@
           "Measuring distances, areas, and changes over time",
           "Exporting imagery for reporting"
         ],
-    dates: ["2025-07-16"]
-  },
+        dates: ["2025-07-16"]
+      },
       {
         menuLabel: "sessions 16–18",
         title: "Practice Stint 1-3",
@@ -614,27 +537,23 @@
         title: "Excel Advanced",
         subtitle: "Data Processing", 
         content: [
-      "Nested formulas: IF, VLOOKUP/XLOOKUP, INDEX-MATCH",
-      "Pivot charts",
-      "Date/time functions",
-      "Basic statistical summaries (mean, median, mode, standard deviation)"
-    ],
+          "Nested formulas: IF, VLOOKUP/XLOOKUP, INDEX-MATCH",
+          "Pivot charts",
+          "Date/time functions",
+          "Basic statistical summaries (mean, median, mode, standard deviation)"
+        ],
         dates: ["2025-07-26"]
       },
-   {
+      {
         menuLabel: "session 20",
         title: "In Focus: Data and Viz for Business Reporting",
-        content: [
-    
-        ],
+        content: [],
         dates: ["2025-07-26"]
       },
       {
         menuLabel: "session 21",
         title: "Practice Stint - 4",
-        content: [
-
-        ],
+        content: [],
         dates: ["2025-07-27"]
       },
       {
@@ -697,49 +616,52 @@
       renderMenuAndContent();
       renderCalendar();
       setupEventListeners();
-      setupScrollObserver(); // New function call
-      setupFadeInObserver(); // New function call
-      if (menuDiv.children.length > 0) {
-        menuDiv.children[0].classList.add('active');
+      setupScrollObserver();
+      setupFadeInObserver();
+      setActiveSession(1);
+    }
+    
+    function setActiveSession(sessionNumber) {
+      document.querySelectorAll('.menu div.active').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.content section h2.active-session-heading').forEach(el => el.classList.remove('active-session-heading'));
+      document.querySelectorAll('.days div.session-date.selected').forEach(el => el.classList.remove('selected'));
+      
+      if (!sessionNumber) return;
+
+      const menuItem = document.getElementById('session' + sessionNumber);
+      if (menuItem) menuItem.classList.add('active');
+
+      const section = document.getElementById('content-session' + sessionNumber);
+      const heading = section?.querySelector('h2');
+      if (heading) heading.classList.add('active-session-heading');
+
+      const sessionData = sessions[sessionNumber - 1];
+      if (sessionData?.dates) {
+        sessionData.dates.forEach(dateStr => {
+          const dayDiv = document.querySelector(`.days div[title*="${dateStr}"]`);
+          if (dayDiv) dayDiv.classList.add('selected');
+        });
       }
     }
 
-    // --- NEW: Intersection Observer for active state on scroll ---
     function setupScrollObserver() {
-      const options = {
-        root: null, // observes intersections relative to the viewport
-        rootMargin: '-30% 0px -70% 0px', // trigger when section is in the middle 40% of the screen
-        threshold: 0
-      };
+      const options = { root: null, rootMargin: '-30% 0px -70% 0px', threshold: 0 };
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             const sessionNumber = entry.target.id.replace('content-session', '');
-            document.querySelectorAll('.menu div').forEach(el => el.classList.remove('active'));
-            const activeMenuItem = document.getElementById('session' + sessionNumber);
-            if (activeMenuItem) {
-              activeMenuItem.classList.add('active');
-            }
+            setActiveSession(sessionNumber);
           }
         });
       }, options);
-      document.querySelectorAll('.content section').forEach(section => {
-        observer.observe(section);
-      });
+      document.querySelectorAll('.content section').forEach(section => { observer.observe(section); });
     }
     
-    // --- NEW: Intersection Observer for fade-in animations ---
     function setupFadeInObserver() {
       const observer = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-              if (entry.isIntersecting) {
-                  entry.target.classList.add('is-visible');
-              }
-          });
+          entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('is-visible'); });
       }, { threshold: 0.1 });
-      document.querySelectorAll('.content section').forEach(section => {
-          observer.observe(section);
-      });
+      document.querySelectorAll('.content section').forEach(section => { observer.observe(section); });
     }
 
     function renderMenuAndContent() {
@@ -810,51 +732,23 @@
       const lastDay = new Date(year, month + 1, 0);
       const daysInMonth = lastDay.getDate();
       const startWeekday = firstDay.getDay();
-      for(let i = 0; i < startWeekday; i++) {
-        const emptyDiv = document.createElement('div');
-        emptyDiv.className = 'empty';
-        daysDiv.appendChild(emptyDiv);
-      }
+      for(let i = 0; i < startWeekday; i++) { daysDiv.appendChild(document.createElement('div')).className = 'empty'; }
       const today = new Date();
-      const todayYear = today.getFullYear();
-      const todayMonth = today.getMonth();
-      const todayDate = today.getDate();
+      const todayYear = today.getFullYear(), todayMonth = today.getMonth(), todayDate = today.getDate();
       for(let day = 1; day <= daysInMonth; day++) {
         const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
         const dayDiv = document.createElement('div');
         dayDiv.textContent = day;
-        const isToday = (year === todayYear) && (month === todayMonth) && (day === todayDate);
-        if (isToday) {
-          dayDiv.classList.add('today');
-        }
+        if (year === todayYear && month === todayMonth && day === todayDate) dayDiv.classList.add('today');
         if (sessionDatesSet.has(dateStr)) {
           dayDiv.classList.add('session-date');
-          const sessionDate = new Date(year, month, day);
-          if (sessionDate < today) {
-            dayDiv.classList.add('past');
-          } else {
-            dayDiv.classList.add('upcoming');
-          }
+          dayDiv.classList.add(new Date(year, month, day) < today ? 'past' : 'upcoming');
           const sessionsForDate = dateToSessionsMap.get(dateStr);
-          const sessionTitles = sessionsForDate.map(s => s.menuLabel).join(', ');
-          dayDiv.title = `${dateStr}: ${sessionTitles}`;
+          dayDiv.title = `${dateStr}: ${sessionsForDate.map(s => s.menuLabel).join(', ')}`;
           dayDiv.onclick = () => {
-            document.querySelectorAll('.days div.session-date.selected').forEach(el => el.classList.remove('selected'));
-            document.querySelectorAll('.menu div').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.content section h2').forEach(el => el.classList.remove('active-session-heading'));
-            dayDiv.classList.add('selected');
-            sessionsForDate.forEach(session => {
-              const sessionIndex = sessions.findIndex(s => s === session);
-              const sessionNumber = sessionIndex + 1;
-              if (session === sessionsForDate[0]) {
-                document.getElementById('content-session' + sessionNumber)?.scrollIntoView({
-                  behavior: 'smooth',
-                  block: 'start'
-                });
-              }
-              document.getElementById('session' + sessionNumber)?.classList.add('active');
-              document.querySelector(`#content-session${sessionNumber} h2`)?.classList.add('active-session-heading');
-            });
+            const firstSessionForDate = sessionsForDate[0];
+            const sessionIndex = sessions.findIndex(s => s === firstSessionForDate);
+            scrollToSession(sessionIndex + 1);
           };
         }
         daysDiv.appendChild(dayDiv);
@@ -864,43 +758,21 @@
     }
 
     function scrollToSession(sessionNumber) {
-      const session = sessions[sessionNumber - 1];
       const section = document.getElementById('content-session' + sessionNumber);
       section?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      for (let item of menuDiv.children) {
-        item.classList.remove('active');
-      }
-      document.getElementById('session' + sessionNumber)?.classList.add('active');
-      document.querySelectorAll('.content section h2').forEach(h2 => h2.classList.remove('active-session-heading'));
-      section?.querySelector('h2')?.classList.add('active-session-heading');
-      document.querySelectorAll('.days div.session-date.selected').forEach(el => el.classList.remove('selected'));
-      if (session.dates) {
-        document.querySelectorAll('.days div.session-date').forEach(dayDiv => {
-          session.dates.forEach(dateStr => {
-            if(dayDiv.title?.includes(dateStr)) {
-              dayDiv.classList.add('selected');
-            }
-          });
-        });
-      }
+      setActiveSession(sessionNumber);
     }
 
     function setupEventListeners() {
       document.querySelectorAll('.content section h2').forEach((heading, index) => {
         const session = sessions[index];
         heading.addEventListener('mouseenter', () => {
-          document.querySelectorAll('.menu div.active, .menu div.hovered').forEach(el => el.classList.remove('active', 'hovered'));
-          document.querySelectorAll('.days div.session-date.selected, .days div.session-date.hovered').forEach(el => el.classList.remove('selected', 'hovered'));
-          document.querySelectorAll('.content section h2.active-session-heading, .content section h2.hovered-session-heading').forEach(el => el.classList.remove('active-session-heading', 'hovered-session-heading'));
+          document.querySelectorAll('.menu div.hovered, .content section h2.hovered-session-heading, .days div.session-date.hovered').forEach(el => el.classList.remove('hovered-session-heading', 'hovered'));
           heading.classList.add('hovered-session-heading');
           document.getElementById('session' + (index + 1))?.classList.add('hovered');
           if (session.dates) {
             session.dates.forEach(dateStr => {
-              document.querySelectorAll('.days div.session-date').forEach(dayDiv => {
-                if(dayDiv.title?.includes(dateStr)) {
-                  dayDiv.classList.add('hovered');
-                }
-              });
+              document.querySelectorAll(`.days div.session-date[title*="${dateStr}"]`).forEach(dayDiv => dayDiv.classList.add('hovered'));
             });
           }
         });
@@ -909,31 +781,14 @@
           document.getElementById('session' + (index + 1))?.classList.remove('hovered');
           if (session.dates) {
             session.dates.forEach(dateStr => {
-              document.querySelectorAll('.days div.session-date').forEach(dayDiv => {
-                if(dayDiv.title?.includes(dateStr)) {
-                  dayDiv.classList.remove('hovered');
-                }
-              });
+              document.querySelectorAll(`.days div.session-date[title*="${dateStr}"]`).forEach(dayDiv => dayDiv.classList.remove('hovered'));
             });
-          }
-          const activeSessionNumber = [...menuDiv.children].findIndex(el => el.classList.contains('active')) + 1;
-          if (activeSessionNumber > 0) {
-            scrollToSession(activeSessionNumber);
           }
         });
       });
-      burger.addEventListener('click', (e) => {
-        e.stopPropagation();
-        menu.classList.toggle('open');
-      });
-      document.addEventListener('click', (e) => {
-        if (!menu.contains(e.target) && e.target !== burger) {
-          menu.classList.remove('open');
-        }
-      });
-      menu.addEventListener('click', (e) => {
-        e.stopPropagation();
-      });
+      burger.addEventListener('click', (e) => { e.stopPropagation(); menu.classList.toggle('open'); });
+      document.addEventListener('click', (e) => { if (!menu.contains(e.target) && e.target !== burger) menu.classList.remove('open'); });
+      menu.addEventListener('click', (e) => { e.stopPropagation(); });
     }
 
     init();
