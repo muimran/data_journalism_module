@@ -1,421 +1,415 @@
-  <!DOCTYPE html>
-  <html lang="en">
-    <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-      
-      <title>Daily Star Data Journalism Training Module</title>
-      <meta name="description" content="Detailed module description for the Daily Star Workshop series." />
-      <meta name="keywords" content="data journalism, workshop, calendar, sessions" />
-      <meta name="author" content="" />
-      
-      <!-- Open Graph for social sharing -->
-      <meta property="og:title" content="Daily Star Data Journalism Training Module" />
-      <meta property="og:description" content="Detailed module description for the Daily Star Workshop series" />
-      <meta property="og:type" content="website" />
-      <meta property="og:url" content="https://muhammadimran.com/ds_module.html" />
-      <meta property="og:image" content="https://tds-images.thedailystar.net/sites/all/themes/sloth/logo.svg" />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
-    
-    <style>
-  /* Reset */
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-  body, html {
-    height: 100%;
-    font-family: 'Roboto', sans-serif;
-    background: #F0E8D3;
-    color: #222;
-  }
-
-  /* Mobile top bar - hidden by default */
-  .mobile-top-bar {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 50px;
-    background: white;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    z-index: 1200;
-    align-items: center;
-    padding: 0 15px;
-  }
-
-  .mobile-title {
-    font-weight: 500;
-    margin-left: 15px;
-    font-size: 1.1rem;
-    color: #333;
-  }
-
-  .container {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 16px;
-    padding: 54px;
-    height: 100vh;
-  }
-
-  .menu {
-    grid-column: 2 / 3;
-    overflow-y: auto;
-    position: sticky;
-    top: 48px;
-  }
-
-  .menu div {
-    position: relative;
-    margin-bottom: 14px;
-    cursor: pointer;
-    color: #0e0202;
-    transition: color 0.3s ease;
-    user-select: none;
-    text-align: right;
-    padding-right: 70px;
-    font-weight: 600;
-    font-size: 1rem;
-  }
-
-  .menu div::after {
-    content: "";
-    display: block;
-    width: 0;
-    height: 2px;
-    background: #9900ff;
-    transition: width 0.5s ease;
-    margin-top: 4px;
-    margin-left: auto;
-  }
-
-  .menu div:hover::after,
-  .menu div.active::after {
-    width: 40px;
-  }
-
-  .content {
-    grid-column: 3 / 6;
-    overflow-y: auto;
-    scroll-behavior: smooth;
-    line-height: 1.2;
-    padding-right: 16px;
-  }
-
-  .content section {
-    margin-bottom: 48px;
-  }
-
-  .content h2 {
-    font-weight: 550;
-    font-size: 1.20rem;
-    margin-bottom: 12px;
-    color: #111;
-  }
-
-  .content ul {
-    list-style: none;
-    padding-left: 0;
-    color: #444;
-  }
-
-  .content ul li {
-    margin-bottom: 10px;
-    font-size: 1rem;
-    position: relative;
-    padding-left: 14px;
-  }
-
-  /* Calendar styles */
-  .calendar {
-    grid-column: 6 / 7;
-    max-width: 280px;
-    width: 100%;
-    background: none;
-    border:none;
-    padding: 12px;
-    border-radius: 8px;
-    font-size: 0.8rem;
-    margin: 0 auto;
-    position: sticky;
-    top: 24px;
-  }
-
-  #calendar-months {
-    margin-top: 110px;
-  }
-
-  .calendar h3 {
-    margin-bottom: 12px;
-    font-weight: 600;
-    text-align: center;
-    color: #0057b8;
-  }
-
-  .month {
-    margin-bottom: 24px;
-  }
-
-  .month-name {
-    font-weight: 600;
-    margin-bottom: 6px;
-    text-align: center;
-    color: #222;
-  }
-
-  .weekdays, .days {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    text-align: center;
-  }
-
-  .weekdays div {
-    font-weight: 500;
-    color: #686868;
-    padding: 6px 0;
-    text-transform: uppercase;
-    font-size: 0.60rem;
-  }
-
-  .days div {
-    width: 19px;
-    height: 19px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    margin: 5px;
-    cursor: default;
-    user-select: none;
-    font-size: 0.80rem;
-    color: #686868;
-  }
-
-  .days div.session-date.selected {
-    background-color: #9900ff;
-  }
-
-  .days div:hover {
-    background-color: #e0e7ff;
-  }
-
-  .days div.empty {
-    cursor: default;
-    background: transparent;
-    pointer-events: none;
-  }
-
-  .days div.session-date {
-    background-color: #D4D42A;
-    color: white;
-    font-weight: 500;
-    cursor: pointer;
-  }
-
-  .days div.session-date:hover {
-    background-color: #9900ff;
-  }
-
-  .content section h2.active-session-heading {
-    color: #9900ff;
-    transition: color 0.3s ease;
-  }
-
-  .content section h2.hovered-session-heading {
-    color: #9900ff;
-    transition: color 0.3s ease;
-  }
-
-  .menu div.hovered::after {
-    width: 40px;
-    background: #9900ff;
-  }
-
-/* today's date styling */
-  .days div.today {
-  background-color: #FE4D00 !important;
-  color: white !important;
-  font-weight: bold;
-}
-
-
-/* Tooltip styling */
-.days div.today::after {
-  content: "Today";
-  position: absolute;
-  background: #333;
-  color: white;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 0.7rem;
-  white-space: nowrap;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  opacity: 0;
-  transition: opacity 0.2s;
-  pointer-events: none;
-  z-index: 100;
-}
-
-.days div.today:hover::after {
-  opacity: 1;
-}
-
-.days div {
-  position: relative; /* Needed for tooltip positioning */
-}
-
-
-
-  .subtitle {
-    display: none;
-    font-style: italic;
-    font-size: 0.7rem;
-    color: #D4D42A;
-  }
-
-  .content h2:hover .subtitle {
-    display: inline;
-  }
-
-  /* Hide burger by default (desktop) */
-  #burger {
-    display: none;
-    position: fixed;
-    top: 15px;
-    left: 15px;
-    z-index: 1100;
-    cursor: pointer;
-    font-size: 1.8rem;
-    user-select: none;
-    color: #9900ff;
-  }
-
-
-  .related-reading a,
-  .related-resources a,
-  li a {
-    color: inherit; /* Makes the link the same color as the surrounding text */
-    text-decoration: underline; /* Keeps the underline */
-  }
-
-
-
-  /* Responsive styling for mobile */
-  @media (max-width: 768px) {
-    /* Show mobile top bar and burger */
-    .mobile-top-bar {
-      display: flex;
-    }
-    
-    #burger {
-      display: block;
-      position: static;
-      font-size: 1.5rem;
-      color: #555;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Daily Star Data Journalism Training Module</title>
+  <meta name="description" content="Detailed module description for the Daily Star Workshop series." />
+  <meta name="keywords" content="data journalism, workshop, calendar, sessions" />
+  <meta name="author" content="" />
+  
+  <!-- Open Graph for social sharing -->
+  <meta property="og:title" content="Daily Star Data Journalism Training Module" />
+  <meta property="og:description" content="Detailed module description for the Daily Star Workshop series" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://muhammadimran.com/ds_module.html" />
+  <meta property="og:image" content="https://tds-images.thedailystar.net/sites/all/themes/sloth/logo.svg" />
+  
+  <!-- Updated Google Fonts Import -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@700&family=Roboto:wght@400;600&display=swap" rel="stylesheet">
+  
+  <style>
+    /* --- NEW: CSS Variables for easy theming --- */
+    :root {
+      --bg-color: #F0E8D3;
+      --text-primary: #222;
+      --text-secondary: #444;
+      --text-muted: #686868;
+      --accent-color: #9900ff;
+      --today-color: #FE4D00;
+      --upcoming-date-bg: #D4D42A;
+      --past-date-bg: #aeae6b;
+      --border-color: #ddd;
+      --font-primary: 'Roboto', sans-serif;
+      --font-secondary: 'Lora', serif;
     }
 
-    /* Adjust container padding */
+    /* Reset */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body, html {
+      height: 100%;
+      font-family: var(--font-primary);
+      background: var(--bg-color);
+      color: var(--text-primary);
+    }
+
+    /* Layout */
     .container {
-      padding: 20px 15px;
-      padding-top: 70px !important;
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 16px;
+      padding: 54px;
+      height: 100vh;
+    }
+    
+    /* --- NEW: Header Styling --- */
+    .header {
+      grid-column: 3 / 6;
+      padding-bottom: 30px;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 30px;
+    }
+    .header h1 {
+      font-family: var(--font-secondary);
+      font-size: 2.2rem;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+    .header p {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      max-width: 80%;
     }
 
-    /* Menu styles */
+    /* Menu */
     .menu {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 250px;
-      height: 100vh;
-      background: #fff;
-      padding: 20px;
-      box-shadow: 2px 0 8px rgba(0,0,0,0.2);
+      grid-column: 2 / 3;
       overflow-y: auto;
-      z-index: 1000;
-      transform: translateX(-100%);
-      transition: transform 0.3s ease;
-      grid-column: auto !important;
+      position: sticky;
+      top: 48px;
     }
 
     .menu div {
-      padding-right: 20px;
-      text-align: left;
+      position: relative;
+      margin-bottom: 14px;
+      cursor: pointer;
+      color: #0e0202;
+      transition: color 0.3s ease;
+      user-select: none;
+      text-align: right;
+      padding-right: 70px;
+      font-weight: 600;
+      font-size: 1rem;
     }
 
-    .menu.open {
-      transform: translateX(0);
+    .menu div::after {
+      content: "";
+      display: block;
+      width: 0;
+      height: 2px;
+      background: var(--accent-color);
+      transition: width 0.5s ease;
+      margin-top: 4px;
+      margin-left: auto;
     }
 
-    /* Content styles */
+    .menu div:hover::after,
+    .menu div.active::after {
+      width: 40px;
+    }
+
+    /* Content */
     .content {
-      grid-column: 1 / -1 !important;
-      padding: 0 15px !important;
-      width: 100%;
-      max-width: 100%;
+      grid-column: 3 / 6;
+      overflow-y: auto;
+      scroll-behavior: smooth;
+      line-height: 1.5; 
+      padding-right: 16px;
     }
 
-    /* Hide calendar on mobile */
+    /* --- UPDATED: Added styles for fade-in animation --- */
+    .content section {
+      margin-bottom: 48px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+    .content section.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .content h2 {
+      font-family: var(--font-secondary);
+      font-weight: 700;
+      font-size: 1.3rem; 
+      margin-bottom: 16px; 
+      color: #111;
+      letter-spacing: -0.5px; 
+    }
+
+    .content ul {
+      list-style: none;
+      padding-left: 0;
+      color: var(--text-secondary);
+    }
+
+    .content ul li {
+      margin-bottom: 12px;
+      font-size: 1rem;
+      position: relative;
+      padding-left: 14px;
+    }
+
+    /* Calendar */
     .calendar {
-      display: none;
+      grid-column: 6 / 7;
+      max-width: 280px;
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      margin: 0 auto;
+      position: sticky;
+      top: 24px;
     }
-  }
 
-  /* Add to your existing styles */
-  .menu div.hovered {
-    color: #9900ff;
-  }
+    #calendar-months {
+      margin-top: 110px;
+    }
 
-  .menu div.hovered::after {
-    width: 40px;
-    background: #9900ff;
-  }
+    .month {
+      margin-bottom: 24px;
+    }
 
-  .days div.session-date.hovered {
-    background-color: #9900ff !important;
-    transform: scale(1.1);
-    transition: transform 0.2s ease;
-  }
+    .month-name {
+      font-weight: 600;
+      margin-bottom: 6px;
+      text-align: center;
+      color: var(--text-primary);
+    }
 
-  .mobile-date {
-        display: none;
-        font-size: 0.7rem;
-        color: #686868;
-        margin-left: 8px;
+    .weekdays, .days {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      text-align: center;
+    }
+
+    .weekdays div {
+      font-weight: 500;
+      color: var(--text-muted);
+      padding: 6px 0;
+      text-transform: uppercase;
+      font-size: 0.60rem;
+    }
+
+    .days div {
+      width: 19px;
+      height: 19px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin: 5px;
+      cursor: default;
+      user-select: none;
+      font-size: 0.80rem;
+      color: var(--text-muted);
+      position: relative;
+    }
+
+    .days div.empty {
+      cursor: default;
+      background: transparent;
+      pointer-events: none;
+    }
+
+    /* Session dates */
+    .days div.session-date {
+      color: white !important;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .days div.session-date.upcoming {
+      background-color: var(--upcoming-date-bg);
+    }
+
+    .days div.session-date.past {
+      background-color: var(--past-date-bg);
+    }
+
+    .days div.session-date:hover {
+      background-color: var(--accent-color) !important;
+      transform: scale(1.22);
+      transition: transform 0.3s ease;
+    }
+
+    .days div.session-date.selected {
+      background-color: var(--accent-color);
+    }
+
+    /* Today's date */
+    .days div.today {
+      background-color: var(--today-color) !important;
+      color: white !important;
+      font-weight: bold;
+      z-index: 1;
+    }
+
+    .days div.today::after {
+      content: "Today";
+      position: absolute;
+      background: #333;
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      white-space: nowrap;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: opacity 0.2s;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    .days div.today:hover::after {
+      opacity: 1;
+    }
+
+    /* Mobile styles */
+    .mobile-top-bar {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 50px;
+      background: white;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      z-index: 1200;
+      align-items: center;
+      padding: 0 15px;
+    }
+
+    .mobile-title {
+      font-weight: 500;
+      margin-left: 15px;
+      font-size: 1.1rem;
+      color: #333;
+    }
+
+    #burger {
+      display: none;
+      cursor: pointer;
+      font-size: 1.8rem;
+      user-select: none;
+      color: var(--accent-color);
+    }
+
+    .mobile-date {
+      display: none;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-left: 8px;
+    }
+
+    @media (max-width: 768px) {
+      .mobile-top-bar { display: flex; }
+      #burger { display: block; font-size: 1.5rem; color: #555; }
+      .container { padding: 20px 15px !important; padding-top: 70px !important; }
+
+      /* --- NEW: Header Mobile Styles --- */
+      .header {
+        grid-column: 1 / -1;
+        padding: 0 15px 20px 15px;
+        margin-bottom: 20px;
+        text-align: center;
       }
+      .header h1 { font-size: 1.8rem; }
+      .header p { font-size: 1rem; max-width: 100%; }
 
-      @media (max-width: 768px) {
-        .content h2:hover .mobile-date {
-          display: inline;
-        }
+      .menu {
+        position: fixed;
+        top: 50px; 
+        bottom: 0; 
+        left: 0;
+        width: 220px; 
+        background-color: rgba(255, 255, 255, 0.85); 
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        padding: 20px;
+        box-shadow: 2px 0 8px rgba(0,0,0,0.2);
+        overflow-y: auto;
+        z-index: 1000;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+      }
+      .menu div { padding-right: 20px; text-align: left; }
+      .menu div::after { margin-left: 0; }
+      .menu.open { transform: translateX(0); }
+      .content { grid-column: 1 / -1 !important; padding: 0 15px !important; }
+      .calendar { display: none; }
+      .content h2:hover .mobile-date { display: inline; }
+    }
 
-
-        
-
-    </style>
-  </head>
-  <body>
-    <div class="mobile-top-bar">
-      <div id="burger">&#9776;</div>
-      <div class="mobile-title">Workshop Sessions</div>
-    </div>
+    /* Additional styles */
+    .content section h2.active-session-heading {
+      color: var(--accent-color);
+      transition: color 0.3s ease;
+    }
+    .content section h2.hovered-session-heading {
+      color: var(--accent-color);
+      transition: color 0.3s ease;
+    }
+    .menu div.hovered { color: var(--accent-color); }
+    .menu div.hovered::after {
+      width: 40px;
+      background: var(--accent-color);
+    }
+    .days div.session-date.hovered {
+      background-color: var(--accent-color) !important;
+      transform: scale(1.1);
+      transition: transform 0.2s ease;
+    }
+    .subtitle {
+      display: none; 
+      font-family: var(--font-primary);
+      font-style: italic;
+      font-size: 0.9rem;
+      color: var(--upcoming-date-bg); 
+      font-weight: 400;
+      margin-left: 8px;
+    }
+    .content h2:hover .subtitle { display: inline; }
+    .related-reading a, .related-resources a, li a {
+      color: inherit;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="mobile-top-bar">
+    <div id="burger">&#9776;</div>
+    <div class="mobile-title">Workshop Sessions</div>
+  </div>
 
   <div class="container">
+    <!-- --- NEW: Header Section --- -->
+    <div class="header">
+      <h1>Daily Star Data Journalism Workshop</h1>
+      <p>An overview of the training modules, topics, and schedule for 2025.</p>
+    </div>
+
     <div class="menu" id="menu"></div>
     <div class="content" id="content-area"></div>
 
-    <!-- Calendar panel -->
     <div class="calendar" id="calendar">
       <div id="calendar-months"></div>
     </div>
   </div>
 
   <script>
-    // Session data for menu and content
     const sessions = [
       {
         menuLabel: "session 1",
@@ -429,30 +423,30 @@
       },
       {
         menuLabel: "session 2",
-        title: "Data Types Basics and OpenRefine for Cleaning- 1",
+        title: "Data Cleaning Principles and Concepts",
         subtitle: "data processing",
         content: [
-          "Why data types matter in data analysis and cleaning",
-          "Installing and launching OpenRefine",
-          "Cleaning messy CSV/Excel files",
-          "Clustering and reconciling data",
-          "Splitting/joining columns, removing duplicates",
-          "Exporting clean data for analysis"
+          "Understanding Data as Journalistic Evidence",
+          "The Four Fundamental Data Types",
+          "Why Incorrect Data Types Break Analysis (Sorting, Math, Grouping)",
+          "Diagnosing the Most Common Types of Messy Data",
+          "The Five-Step Workflow for Systematic Data Cleaning",
+          'Introduction to <a href="https://openrefine.org" target="_blank" rel="noopener">OpenRefine</a> for data cleaning: installing and launching'
         ],
         dates: ["2025-06-23"]
       },
 
       {
         menuLabel: "session 3",
-        title: "Data Types Basics and OpenRefine for Cleaning-  2",
+        title: "Hands-On Data Cleaning with OpenRefine",
         subtitle: "data processing",
         content: [
-          "Why data types matter in data analysis and cleaning",
-          "Installing and launching OpenRefine",
-          "Cleaning messy CSV/Excel files",
-          "Clustering and reconciling data",
-          "Splitting/joining columns, removing duplicates",
-          "Exporting clean data for analysis"
+            "Getting Started: Importing and Exploring Data in OpenRefine",
+            "Inspecting and Diagnosing Data with Facets",
+            "Fixing Inconsistencies with Faceting and Clustering",
+            "Applying Common Transformations to Clean Cell Data (Trimming, Case, Conversion)",
+            "Restructuring Data: Extracting Information and Managing Columns (Splitting, Removing)",
+            "Finalizing Your Workflow: Removing Duplicates and Exporting Reproducible Results"
         ],
         dates: ["2025-06-25"]
       },  
@@ -581,8 +575,6 @@
     ],
     dates: ["2025-07-12"]
   },
-
-
   {
     menuLabel: "session 14",
     title: "Custom GeoJSON and Map Creation",
@@ -595,9 +587,9 @@
     ],
     dates: ["2025-07-14"]
   },
-  {
+    {
     menuLabel: "session 15",
-    title: "Spreadsheet Analysis Techniques",
+    title: "Satellite Data for Investigations",
     subtitle: "data processing", 
     content: [
           "Tools: Google Earth Pro, Sentinel Hub Playground, Planet Labs (public data), Sentinel Downloader",
@@ -609,205 +601,90 @@
         ],
     dates: ["2025-07-16"]
   },
-
-
-      
-      
-  {
-    menuLabel: "session 16",
-    title: "How to Run Surveys for Data Collection",
-    subtitle: "data collection", 
-    content: [
-      "Designing effective, unbiased survey questions",
-      "Sample size and sampling bias",
-      "Tools for online surveys",
-      "Exporting and preparing survey data for analysis"
-    ],
-    dates: ["2025-07-17"]
-  },
-
       {
-        menuLabel: "session 17",
-        title: "Satellite Data for Investigations",
-        subtitle: "osint", 
+        menuLabel: "sessions 16–18",
+        title: "Practice Stint 1-3",
+        content: [
+          "These sessions will not cover any new topics. Instead, we will focus on obtaining a dataset, then cleaning and analysing it. We'll practice what we learned in the previous sessions."
+        ],
+        dates: ["2025-07-19", "2025-07-21", "2025-07-23"]
+      },
+      {
+        menuLabel: "session 19",
+        title: "Excel Advanced",
+        subtitle: "Data Processing", 
         content: [
       "Nested formulas: IF, VLOOKUP/XLOOKUP, INDEX-MATCH",
       "Pivot charts",
       "Date/time functions",
       "Basic statistical summaries (mean, median, mode, standard deviation)"
     ],
-        dates: ["2025-07-19"]
+        dates: ["2025-07-26"]
       },
-      {
-        menuLabel: "session 18",
-        title: "Data Lab 2: Investigating Inequality Using Poverty and Health Data",
+   {
+        menuLabel: "session 20",
+        title: "In Focus: Data and Viz for Business Reporting",
         content: [
-          "Finding datasets on income, health, education gaps",
-          "Visualizing disparities with charts and maps",
-          "Case study: inequality reporting examples"
+    
         ],
-        dates: ["2025-07-21"]
+        dates: ["2025-07-26"]
       },
-
       {
-        menuLabel: "session 19",
+        menuLabel: "session 21",
+        title: "Practice Stint - 4",
+        content: [
+
+        ],
+        dates: ["2025-07-27"]
+      },
+      {
+        menuLabel: "session 22",
         title: "Introduction to Coding for Data Journalists",
         content: [
           "Details will be provided soon."
         ],
-        dates: ["2025-07-23"]
+        dates: ["2025-07-28"]
       },
       {
-        menuLabel: "session 20",
-        title: "Criticism, Bias and Pitfalls of Data Journalism",
+        menuLabel: "sessions 23",
+        title: "Ethics and Privacy",
         content: [
-          "Details will be provided soon."
+            "Data Integrity and Transparency: Your Shield Against Disinformation and the DSA",
+            "Data Privacy and Harm Reduction: Protecting Sources and Subjects in a High-Stakes Environment",
+            "The Secure Workflow: Ethical Data Handling from Acquisition to Publication",
+            "Bias, Fairness, and Representation: Telling Inclusive Stories of Bangladesh",
+            "Accountability and Risk Management: A Practical Framework for Newsroom Safety"
         ],
-        dates: ["2025-07-24"]
-      },
-      {
-        menuLabel: "sessions 21–23",
-        title: "SESSION 21–23: Reserved for overflow / catch-up if needed",
-        content: [
-          "These sessions are intentionally left unscheduled in case earlier topics require extra time or to accommodate additional sessions based on participant needs."
-        ],
-        dates: ["2025-07-26", "2025-07-28", "2025-07-30"]
+        dates: ["2025-07-29"]
       },
       {
         menuLabel: "sessions 24–30",
-        title: "SESSION 24–30: Story Development and Publication",
+        title: "SESSION 23–30: Story Development and Publication",
         content: [
           "Details will be provided soon."
         ],
-        dates: ["2025-07-31", "2025-08-02", "2025-08-04", "2025-08-06", "2025-08-07", "2025-08-09"]
+        dates: ["2025-07-30", "2025-07-31", "2025-08-03", "2025-08-04",  "2025-08-05", "2025-08-06", "2025-08-07" ]
       }
     ];
 
-    // Fill menu and content
     const menuDiv = document.getElementById('menu');
     const contentArea = document.getElementById('content-area');
-
-    sessions.forEach((session, index) => {
-      const sessionNumber = index + 1;
-
-      // Create menu button (unchanged)
-      const menuItem = document.createElement('div');
-      menuItem.id = 'session' + sessionNumber;
-      menuItem.textContent = session.menuLabel;
-      menuItem.onclick = () => scrollToSession(sessionNumber);
-      menuDiv.appendChild(menuItem);
-
-      // Create content section
-      const section = document.createElement('section');
-      section.id = 'content-session' + sessionNumber;
-
-      const title = document.createElement('h2');
-      title.innerHTML = session.title;
-
-      // Add subtitle if exists
-      if (session.subtitle) {
-        const subtitle = document.createElement('span');
-        subtitle.textContent = "  " + session.subtitle;
-        subtitle.className = 'subtitle';
-        subtitle.style.fontStyle = 'italic';
-        subtitle.style.fontSize = '0.7rem';
-        subtitle.style.marginLeft = '6px';
-        title.appendChild(subtitle);
-      }
-
-      // Add mobile date display
-      if (session.dates && session.dates.length > 0) {
-        const mobileDate = document.createElement('span');
-        mobileDate.className = 'mobile-date';
-        // Format dates nicely for display
-        const formattedDates = session.dates.map(date => {
-          const d = new Date(date);
-          return `${d.getDate()} ${d.toLocaleString('default', { month: 'short' })}`;
-        }).join(', ');
-        mobileDate.textContent = `(${formattedDates})`;
-        title.appendChild(mobileDate);
-      }
-
-      section.appendChild(title);
-
-      const ul = document.createElement('ul');
-      session.content.forEach(line => {
-        const li = document.createElement('li');
-        li.innerHTML = line;
-        ul.appendChild(li);
-      });
-      section.appendChild(ul);
-
-      contentArea.appendChild(section);
-    });
-
-    // Set the first menu item active by default
-    menuDiv.children[0].classList.add('active');
-
-    function scrollToSession(sessionNumber) {
-      const session = sessions[sessionNumber - 1];
-      
-      // Scroll content area to the session heading
-      const section = document.getElementById('content-session' + sessionNumber);
-      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-      // Highlight active menu item
-      for (let item of menuDiv.children) {
-        item.classList.remove('active');
-      }
-      const activeItem = document.getElementById('session' + sessionNumber);
-      activeItem.classList.add('active');
-
-      // Highlight active session heading
-      document.querySelectorAll('.content section h2').forEach(h2 => {
-        h2.classList.remove('active-session-heading');
-      });
-      const activeHeading = section.querySelector('h2');
-      if (activeHeading) {
-        activeHeading.classList.add('active-session-heading');
-      }
-
-      // Remove 'selected' class from all session-date circles
-      document.querySelectorAll('.days div.session-date.selected').forEach(el => el.classList.remove('selected'));
-
-      // Highlight all calendar dates for this session
-      if (session.dates) {
-        const calendarDays = document.querySelectorAll('.days div.session-date');
-        calendarDays.forEach(dayDiv => {
-          session.dates.forEach(dateStr => {
-            if(dayDiv.title.includes(dateStr)) {
-              dayDiv.classList.add('selected');
-            }
-          });
-        });
-      }
-    }
-
-    // Calendar generation code
-
-    // Helper to get weekday names
+    const calendarContainer = document.getElementById('calendar-months');
+    const burger = document.getElementById('burger');
+    const menu = document.querySelector('.menu');
     const weekdayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
-    // Months to show
     const calendarMonths = [
       { name: "June 2025", year: 2025, month: 5 },
       { name: "July 2025", year: 2025, month: 6 },
       { name: "August 2025", year: 2025, month: 7 }
     ];
-
-    // Create a Set of all session dates strings "YYYY-MM-DD" for quick lookup
     const sessionDatesSet = new Set();
-    sessions.forEach(session => {
-      if (session.dates) {
-        session.dates.forEach(date => sessionDatesSet.add(date));
-      }
-    });
-
-    // Create a map of dates to sessions for quick lookup
     const dateToSessionsMap = new Map();
+
     sessions.forEach(session => {
       if (session.dates) {
         session.dates.forEach(date => {
+          sessionDatesSet.add(date);
           if (!dateToSessionsMap.has(date)) {
             dateToSessionsMap.set(date, []);
           }
@@ -816,34 +693,109 @@
       }
     });
 
-    const calendarContainer = document.getElementById('calendar-months');
+    function init() {
+      renderMenuAndContent();
+      renderCalendar();
+      setupEventListeners();
+      setupScrollObserver(); // New function call
+      setupFadeInObserver(); // New function call
+      if (menuDiv.children.length > 0) {
+        menuDiv.children[0].classList.add('active');
+      }
+    }
 
-    // Function to format date as YYYY-MM-DD
-function formatDate(date) {
-  const d = new Date(date);
-  let month = '' + (d.getMonth() + 1);
-  let day = '' + d.getDate();
-  const year = d.getFullYear();
+    // --- NEW: Intersection Observer for active state on scroll ---
+    function setupScrollObserver() {
+      const options = {
+        root: null, // observes intersections relative to the viewport
+        rootMargin: '-30% 0px -70% 0px', // trigger when section is in the middle 40% of the screen
+        threshold: 0
+      };
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const sessionNumber = entry.target.id.replace('content-session', '');
+            document.querySelectorAll('.menu div').forEach(el => el.classList.remove('active'));
+            const activeMenuItem = document.getElementById('session' + sessionNumber);
+            if (activeMenuItem) {
+              activeMenuItem.classList.add('active');
+            }
+          }
+        });
+      }, options);
+      document.querySelectorAll('.content section').forEach(section => {
+        observer.observe(section);
+      });
+    }
+    
+    // --- NEW: Intersection Observer for fade-in animations ---
+    function setupFadeInObserver() {
+      const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                  entry.target.classList.add('is-visible');
+              }
+          });
+      }, { threshold: 0.1 });
+      document.querySelectorAll('.content section').forEach(section => {
+          observer.observe(section);
+      });
+    }
 
-  if (month.length < 2) month = '0' + month;
-  if (day.length < 2) day = '0' + day;
+    function renderMenuAndContent() {
+      sessions.forEach((session, index) => {
+        const sessionNumber = index + 1;
+        const menuItem = document.createElement('div');
+        menuItem.id = 'session' + sessionNumber;
+        menuItem.textContent = session.menuLabel;
+        menuItem.onclick = () => scrollToSession(sessionNumber);
+        menuDiv.appendChild(menuItem);
+        const section = document.createElement('section');
+        section.id = 'content-session' + sessionNumber;
+        const title = document.createElement('h2');
+        title.innerHTML = session.title;
+        if (session.subtitle) {
+          const subtitle = document.createElement('span');
+          subtitle.textContent = "  " + session.subtitle;
+          subtitle.className = 'subtitle';
+          title.appendChild(subtitle);
+        }
+        if (session.dates?.length > 0) {
+          const mobileDate = document.createElement('span');
+          mobileDate.className = 'mobile-date';
+          const formattedDates = session.dates.map(date => {
+            const d = new Date(date);
+            return `${d.getDate()} ${d.toLocaleString('default', { month: 'short' })}`;
+          }).join(', ');
+          mobileDate.textContent = `(${formattedDates})`;
+          title.appendChild(mobileDate);
+        }
+        section.appendChild(title);
+        const ul = document.createElement('ul');
+        session.content.forEach(line => {
+          const li = document.createElement('li');
+          li.innerHTML = line;
+          ul.appendChild(li);
+        });
+        section.appendChild(ul);
+        contentArea.appendChild(section);
+      });
+    }
 
-  return [year, month, day].join('-');
-}
-
-// Get today's date in YYYY-MM-DD format
-const todayStr = formatDate(new Date());
+    function renderCalendar() {
+      calendarMonths.forEach(({name, year, month}) => {
+        const monthCalendar = createMonthCalendar(year, month, name);
+        calendarContainer.appendChild(monthCalendar);
+      });
+    }
 
     function createMonthCalendar(year, month, monthName) {
       const monthDiv = document.createElement('div');
       monthDiv.className = 'month';
-
       const monthTitle = document.createElement('div');
       monthTitle.className = 'month-name';
       monthTitle.textContent = monthName;
       monthDiv.appendChild(monthTitle);
-
-      // Weekdays header
       const weekdaysDiv = document.createElement('div');
       weekdaysDiv.className = 'weekdays';
       weekdayNames.forEach(day => {
@@ -852,149 +804,139 @@ const todayStr = formatDate(new Date());
         weekdaysDiv.appendChild(dayDiv);
       });
       monthDiv.appendChild(weekdaysDiv);
-
-      // Days grid
       const daysDiv = document.createElement('div');
       daysDiv.className = 'days';
-
       const firstDay = new Date(year, month, 1);
       const lastDay = new Date(year, month + 1, 0);
       const daysInMonth = lastDay.getDate();
       const startWeekday = firstDay.getDay();
-
-      // Fill empty slots before first day
       for(let i = 0; i < startWeekday; i++) {
         const emptyDiv = document.createElement('div');
         emptyDiv.className = 'empty';
         daysDiv.appendChild(emptyDiv);
       }
-
-      // Fill days
-      for(let day=1; day<=daysInMonth; day++) {
-  const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
-  const dayDiv = document.createElement('div');
-  dayDiv.textContent = day;
-
-  // Highlight today's date
-  if (dateStr === todayStr) {
-    dayDiv.classList.add('today');
-  }
-
-  if(sessionDatesSet.has(dateStr)) {
-    dayDiv.classList.add('session-date');
-          
-          // Get all sessions for this date
+      const today = new Date();
+      const todayYear = today.getFullYear();
+      const todayMonth = today.getMonth();
+      const todayDate = today.getDate();
+      for(let day = 1; day <= daysInMonth; day++) {
+        const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        const dayDiv = document.createElement('div');
+        dayDiv.textContent = day;
+        const isToday = (year === todayYear) && (month === todayMonth) && (day === todayDate);
+        if (isToday) {
+          dayDiv.classList.add('today');
+        }
+        if (sessionDatesSet.has(dateStr)) {
+          dayDiv.classList.add('session-date');
+          const sessionDate = new Date(year, month, day);
+          if (sessionDate < today) {
+            dayDiv.classList.add('past');
+          } else {
+            dayDiv.classList.add('upcoming');
+          }
           const sessionsForDate = dateToSessionsMap.get(dateStr);
           const sessionTitles = sessionsForDate.map(s => s.menuLabel).join(', ');
           dayDiv.title = `${dateStr}: ${sessionTitles}`;
-          
           dayDiv.onclick = () => {
-            // Remove 'selected' class from all session-date divs
             document.querySelectorAll('.days div.session-date.selected').forEach(el => el.classList.remove('selected'));
-            
-            // Add 'selected' class to the clicked day
+            document.querySelectorAll('.menu div').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.content section h2').forEach(el => el.classList.remove('active-session-heading'));
             dayDiv.classList.add('selected');
-            
-            // Scroll to the first session linked to this date
-            if(sessionsForDate.length > 0) {
-              const sessionIndex = sessions.findIndex(s => s === sessionsForDate[0]);
-              scrollToSession(sessionIndex + 1);
-            }
+            sessionsForDate.forEach(session => {
+              const sessionIndex = sessions.findIndex(s => s === session);
+              const sessionNumber = sessionIndex + 1;
+              if (session === sessionsForDate[0]) {
+                document.getElementById('content-session' + sessionNumber)?.scrollIntoView({
+                  behavior: 'smooth',
+                  block: 'start'
+                });
+              }
+              document.getElementById('session' + sessionNumber)?.classList.add('active');
+              document.querySelector(`#content-session${sessionNumber} h2`)?.classList.add('active-session-heading');
+            });
           };
         }
-
         daysDiv.appendChild(dayDiv);
       }
-
       monthDiv.appendChild(daysDiv);
       return monthDiv;
     }
 
-    // Render calendars
-    calendarMonths.forEach(({name, year, month}) => {
-      const monthCalendar = createMonthCalendar(year, month, name);
-      calendarContainer.appendChild(monthCalendar);
-    });
-
-    const contentHeadings = document.querySelectorAll('.content section h2');
-
-  contentHeadings.forEach((heading, index) => {
-    const session = sessions[index];
-    
-    heading.addEventListener('mouseenter', () => {
-    // First remove ALL selection and hover classes
-    document.querySelectorAll('.menu div.active, .menu div.hovered').forEach(el => {
-      el.classList.remove('active', 'hovered');
-    });
-    document.querySelectorAll('.days div.session-date.selected, .days div.session-date.hovered').forEach(el => {
-      el.classList.remove('selected', 'hovered');
-    });
-    document.querySelectorAll('.content section h2.active-session-heading, .content section h2.hovered-session-heading').forEach(el => {
-      el.classList.remove('active-session-heading', 'hovered-session-heading');
-    });
-
-    // Now apply hover highlights
-    heading.classList.add('hovered-session-heading');
-    const menuItem = document.getElementById('session' + (index + 1));
-    if (menuItem) menuItem.classList.add('hovered');
-    
-    if (session.dates) {
-      session.dates.forEach(dateStr => {
-        document.querySelectorAll('.days div.session-date').forEach(dayDiv => {
-          if(dayDiv.title.includes(dateStr)) {
-            dayDiv.classList.add('hovered');
-          }
-        });
-      });
-    }
-  });
-
-    heading.addEventListener('mouseleave', () => {
-      // Remove all hover highlights
-      heading.classList.remove('hovered-session-heading');
-      
-      const menuItem = document.getElementById('session' + (index + 1));
-      if (menuItem) menuItem.classList.remove('hovered');
-      
+    function scrollToSession(sessionNumber) {
+      const session = sessions[sessionNumber - 1];
+      const section = document.getElementById('content-session' + sessionNumber);
+      section?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      for (let item of menuDiv.children) {
+        item.classList.remove('active');
+      }
+      document.getElementById('session' + sessionNumber)?.classList.add('active');
+      document.querySelectorAll('.content section h2').forEach(h2 => h2.classList.remove('active-session-heading'));
+      section?.querySelector('h2')?.classList.add('active-session-heading');
+      document.querySelectorAll('.days div.session-date.selected').forEach(el => el.classList.remove('selected'));
       if (session.dates) {
-        session.dates.forEach(dateStr => {
-          document.querySelectorAll('.days div.session-date').forEach(dayDiv => {
-            if(dayDiv.title.includes(dateStr)) {
-              dayDiv.classList.remove('hovered');
+        document.querySelectorAll('.days div.session-date').forEach(dayDiv => {
+          session.dates.forEach(dateStr => {
+            if(dayDiv.title?.includes(dateStr)) {
+              dayDiv.classList.add('selected');
             }
           });
         });
       }
-      
-      // Restore any active selections
-      const activeSessionNumber = [...menuDiv.children].findIndex(el => el.classList.contains('active')) + 1;
-      if (activeSessionNumber > 0) {
-        scrollToSession(activeSessionNumber);
-      }
-    });
-  });
-
-    const burger = document.getElementById('burger');
-  const menu = document.querySelector('.menu');
-
-  burger.addEventListener('click', (e) => {
-    e.stopPropagation(); // Prevent this click from bubbling up to document
-    menu.classList.toggle('open');
-  });
-
-  // Close menu when clicking anywhere outside
-  document.addEventListener('click', (e) => {
-    // Check if click is outside the menu and burger icon
-    if (!menu.contains(e.target) && e.target !== burger) {
-      menu.classList.remove('open');
     }
-  });
 
-  // Prevent clicks inside menu from closing it
-  menu.addEventListener('click', (e) => {
-    e.stopPropagation();
-  });
+    function setupEventListeners() {
+      document.querySelectorAll('.content section h2').forEach((heading, index) => {
+        const session = sessions[index];
+        heading.addEventListener('mouseenter', () => {
+          document.querySelectorAll('.menu div.active, .menu div.hovered').forEach(el => el.classList.remove('active', 'hovered'));
+          document.querySelectorAll('.days div.session-date.selected, .days div.session-date.hovered').forEach(el => el.classList.remove('selected', 'hovered'));
+          document.querySelectorAll('.content section h2.active-session-heading, .content section h2.hovered-session-heading').forEach(el => el.classList.remove('active-session-heading', 'hovered-session-heading'));
+          heading.classList.add('hovered-session-heading');
+          document.getElementById('session' + (index + 1))?.classList.add('hovered');
+          if (session.dates) {
+            session.dates.forEach(dateStr => {
+              document.querySelectorAll('.days div.session-date').forEach(dayDiv => {
+                if(dayDiv.title?.includes(dateStr)) {
+                  dayDiv.classList.add('hovered');
+                }
+              });
+            });
+          }
+        });
+        heading.addEventListener('mouseleave', () => {
+          heading.classList.remove('hovered-session-heading');
+          document.getElementById('session' + (index + 1))?.classList.remove('hovered');
+          if (session.dates) {
+            session.dates.forEach(dateStr => {
+              document.querySelectorAll('.days div.session-date').forEach(dayDiv => {
+                if(dayDiv.title?.includes(dateStr)) {
+                  dayDiv.classList.remove('hovered');
+                }
+              });
+            });
+          }
+          const activeSessionNumber = [...menuDiv.children].findIndex(el => el.classList.contains('active')) + 1;
+          if (activeSessionNumber > 0) {
+            scrollToSession(activeSessionNumber);
+          }
+        });
+      });
+      burger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        menu.classList.toggle('open');
+      });
+      document.addEventListener('click', (e) => {
+        if (!menu.contains(e.target) && e.target !== burger) {
+          menu.classList.remove('open');
+        }
+      });
+      menu.addEventListener('click', (e) => {
+        e.stopPropagation();
+      });
+    }
+
+    init();
   </script>
-
-  </body>
-  </html>
+</body>
+</html>
